@@ -131,3 +131,20 @@ integración HTTP con TestClient: resumen de compras y ventas, lista vacía, sol
 compras, cantidad negativa (422), independencia entre peticiones y publicación del
 contrato en OpenAPI. También comprueba que `/api-docs` sigue disponible. No requiere
 iniciar Uvicorn.
+
+## Cobertura de la lógica de negocio
+
+Instala las dependencias de desarrollo, que incluyen pytest-cov, y ejecuta desde
+la raíz del repositorio:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest -q --cov=app.stock --cov=app.rentabilidad --cov-report=term-missing --cov-fail-under=80
+```
+
+El comando ejecuta toda la suite, incluidas las pruebas de integración, y mide
+únicamente la cobertura de líneas de `app/stock.py` y `app/rentabilidad.py`.
+El informe muestra la cobertura por módulo, el total y las líneas sin ejecutar.
+La ejecución falla si hay pruebas fallidas o si la cobertura total de esos dos
+módulos es inferior al 80 %. Los archivos de datos `.coverage` y `.coverage.*`
+quedan excluidos de Git.
