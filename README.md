@@ -1,7 +1,8 @@
 # Trycore Inventario API
 
-Base mínima de una API de inventario con FastAPI. Esta etapa no incluye endpoints
-de negocio, contratos JSON de inventario, cálculos ni persistencia.
+API de inventario con FastAPI, modelo de transacción y cálculo del stock final por
+producto. Esta etapa no incluye endpoints de negocio, cálculo de rentabilidad ni
+persistencia.
 
 ## Ejecución local en Windows con PowerShell
 
@@ -42,3 +43,23 @@ Para comprobar las respuestas desde otra terminal de PowerShell:
 
 Ambos comandos deben mostrar `200`. Detén el servidor con `Ctrl+C` en la terminal
 donde lo iniciaste.
+
+## Cálculo de stock y pruebas unitarias
+
+`app.stock.calcular_stock` recibe una lista de objetos `Transaccion` y devuelve el
+stock entero de COAL, IRON, ALUMINIUM, GOLD y TIMBER. Cada producto empieza en cero:
+BUY suma la cantidad y SELL la resta. Se conservan los saldos negativos y el valor
+unitario no interviene en el cálculo.
+
+Con el entorno virtual creado, instala las dependencias de desarrollo (incluyen
+las dependencias de la aplicación) y ejecuta las pruebas desde la raíz:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+Las pruebas comparan los cinco productos en cada resultado: lista vacía con todos
+en cero; compra de 10 IRON y venta de 14 IRON con saldo -4; y compras de 3 y 5 GOLD
+con venta de 2 TIMBER, que dejan GOLD en 8 y TIMBER en -2. Se ejecutan directamente
+sobre la función, sin iniciar el servidor.
