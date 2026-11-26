@@ -15,13 +15,11 @@ Ejecuta los siguientes comandos desde la raíz del repositorio.
    ```powershell
    python -m venv .venv
    ```
-
 2. Instala las dependencias:
 
    ```powershell
    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
-
 3. Inicia el servidor:
 
    ```powershell
